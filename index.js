@@ -2,6 +2,8 @@ const express = require("express")
 const exphbs = require("express-handlebars")
 const mysql = require("mysql2")
 
+
+
 const app = express()
 
 
@@ -9,7 +11,6 @@ app.engine('handlebars', exphbs.engine())
 app.set('view engine', 'handlebars')
 
 app.use(express.static('public'))
-
 
 const conexao =mysql.crateConnection({
     host: "localhost",
@@ -19,7 +20,20 @@ const conexao =mysql.crateConnection({
     port:3306
 })
 
+
 app.get('/', (requisicao, resposta) =>{
     resposta.render('home')
 })
 
+conexao.connect((erro) =>{
+    if (erro) {
+        return console.log(erro)
+    }
+
+    console.log("Estou conectado ao mysql")
+
+    app.listen(3000, () => {
+        console.log("servidor rodando na porta 3000")
+    })
+
+})
