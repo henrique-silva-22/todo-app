@@ -12,5 +12,5 @@ app.get('/', (requisicao, resposta) =>{
 })
 
 app.listen(3000, () => {
-    console.log("servidor rodando naporta 3000")
+    console.log("servidor rodando na porta 3000")
 })
