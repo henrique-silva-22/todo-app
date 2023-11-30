@@ -57,15 +57,12 @@ app.get('/', (requisicao, resposta) =>{
             return{
                 id: dado.id,
                 descricao: dado.descricao,
-                completa: dado.completa === 0 ?
+                completa: dado.completa === 0 ? false:true
             }
+            
         })
+        resposta.render('home', {tarefas})
     })
-
-
-
-
-    resposta.render('home')
 })
 
 conexao.connect((erro) =>{
