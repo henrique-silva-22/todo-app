@@ -12,6 +12,29 @@ app.set('view engine', 'handlebars')
 
 app.use(express.static('public'))
 
+app.use(express.urlencoded({
+    extended: true
+}))
+
+app.post('/criar', (requisicao, resposta) =>{
+    const descricao = requisicao.body.descricao
+    const completa = 0
+
+    const sql =`
+      INSERT INTO tarefas(descricao, completa)
+      VALUES ('${descricao}', '${completa}')
+     `
+
+
+     conexao.query(sql, (erro) =>{
+        if (erro) {
+            return console.log(erro)
+        }
+
+        resposta.redirect('/')
+     })
+})
+
 const conexao =mysql.crateConnection({
     host: "localhost",
     user: "root",
