@@ -16,6 +16,48 @@ app.use(express.urlencoded({
     extended: true
 }))
 
+
+
+
+
+const conexao =mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "2006",
+    database: "todoapp",
+    port:3306
+})
+
+ app.post('/descompletar', (requisicao, resposta) =>{
+    const id = requisicao.body.id
+
+    const sql = `
+      UPDATE tarefas
+      SET completa = '0'
+      WHERE id = ${id}
+    `
+ })
+app.get('/', (requisicao, resposta) =>{
+    const sql = 'SELECT * FROM tarefas'
+    
+    conexao.query(sql, (erro,dados)=>{
+        if (erro) {
+            return console.log(erro)
+        }
+        
+
+        const tarefas = dados.map((dado) => {
+            return{
+                id: dado.id,
+                descricao: dado.descricao,
+                completa: dado.completa === 0 ? false:true
+            }
+            
+        })
+        resposta.render('home', {tarefas})
+    })
+})
+
 app.post('/completar', (requisicao, resposta)=>{
     const id = requisicao.body.id
 
@@ -49,36 +91,6 @@ app.post('/criar', (requisicao, resposta) =>{
 
         resposta.redirect('/')
      })
-})
-
-const conexao =mysql.crateConnection({
-    host: "localhost",
-    user: "root",
-    password: "root",
-    database: "todoapp",
-    port:3306
-})
-
-
-app.get('/', (requisicao, resposta) =>{
-    const sql = 'SELECT * FROM tarefas'
-    
-    conexao.query(sql, (erro,dados)=>{
-        if (erro) {
-            return console.log(erro)
-        }
-        
-
-        const tarefas = dados.map((dado) => {
-            return{
-                id: dado.id,
-                descricao: dado.descricao,
-                completa: dado.completa === 0 ? false:true
-            }
-            
-        })
-        resposta.render('home', {tarefas})
-    })
 })
 
 conexao.connect((erro) =>{

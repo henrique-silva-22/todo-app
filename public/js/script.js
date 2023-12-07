@@ -9,6 +9,14 @@ function completarTarefa(id){
     window.location.reload()
 }
 
+function descompletarTarefa(id) {
+    fetch("http://localhost300/descompletar",{
+        method: "POST",
+        headers: {
+            'Content-type': 'application/json'
+        }
+    })
+}
 
 function alterarTema(){
     const tema = localStorage.getItem("tema")
